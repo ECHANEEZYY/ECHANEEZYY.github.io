@@ -109,7 +109,7 @@
 <meta property="og:description" content="你好这是我的第一篇文章:)">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1ficc2mowkwj31kw0w0e84.jpg">
-<meta property="og:updated_time" content="2017-08-08T07:14:24.000Z">
+<meta property="og:updated_time" content="2017-08-08T18:38:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="沙发">
 <meta name="twitter:description" content="你好这是我的第一篇文章:)">
@@ -122,7 +122,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
     fancybox: true,
     tabs: true,
     motion: true,
@@ -358,7 +358,7 @@
       
 
       
-        <p>你好<br>这是我的第一篇文章:)<br><img src="https://ws2.sinaimg.cn/large/006tNc79gy1ficc2mowkwj31kw0w0e84.jpg" alt="“test”"></p>
+        <h1 id="你好"><a href="#你好" class="headerlink" title="你好"></a>你好</h1><h2 id="这是我的第一篇文章"><a href="#这是我的第一篇文章" class="headerlink" title="这是我的第一篇文章:)"></a>这是我的第一篇文章:)</h2><p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1ficc2mowkwj31kw0w0e84.jpg" alt="“test”"></p>
 
       
     </div>
@@ -438,13 +438,24 @@
 
   <aside id="sidebar" class="sidebar">
     
+      <div id="sidebar-dimmer"></div>
+    
     <div class="sidebar-inner">
 
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://ws3.sinaimg.cn/large/006tNc79gy1ficbtk9lh4j30j60j6mx8.jpg"
@@ -526,6 +537,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#你好"><span class="nav-number">1.</span> <span class="nav-text">你好</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#这是我的第一篇文章"><span class="nav-number">1.1.</span> <span class="nav-text">这是我的第一篇文章:)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

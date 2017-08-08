@@ -119,7 +119,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
     fancybox: true,
     tabs: true,
     motion: true,
@@ -600,7 +600,7 @@
       
         
           
-            <p>你好<br>这是我的第一篇文章:)<br><img src="https://ws2.sinaimg.cn/large/006tNc79gy1ficc2mowkwj31kw0w0e84.jpg" alt="“test”"></p>
+            <h1 id="你好"><a href="#你好" class="headerlink" title="你好"></a>你好</h1><h2 id="这是我的第一篇文章"><a href="#这是我的第一篇文章" class="headerlink" title="这是我的第一篇文章:)"></a>这是我的第一篇文章:)</h2><p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1ficc2mowkwj31kw0w0e84.jpg" alt="“test”"></p>
 
           
         
@@ -660,6 +660,8 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
     
     <div class="sidebar-inner">
 
