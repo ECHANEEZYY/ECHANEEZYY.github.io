@@ -1176,7 +1176,7 @@ pre .javascript .function {
   display: inline-block;
   vertical-align: top;
   line-height: 36px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
   font-family: 'Rock Salt', 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
@@ -1967,7 +1967,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #f2ffcf;
+  background: #fcb0df;
 }
 .links-of-blogroll {
   font-size: 13px;
