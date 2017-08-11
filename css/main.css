@@ -1112,7 +1112,7 @@ pre .javascript .function {
   padding: 0 6px;
   width: initial;
   background: #fff;
-  font-size: 16px;
+  font-size: 12px;
   opacity: 1;
   color: #000;
   cursor: pointer;
@@ -1582,9 +1582,9 @@ pre .javascript .function {
 }
 .post-button .btn {
   color: #000;
-  font-size: 14px;
+  font-size: 12px;
   background: #fff;
-  border-radius: 2px;
+  border-radius: 20px;
   line-height: 2;
   margin: 0 4px 8px 4px;
 }
@@ -1685,13 +1685,6 @@ pre .javascript .function {
 .fancybox-close,
 .fancybox-close:hover {
   border: none;
-}
-.post-copyright {
-  margin: 2em 0 0;
-  padding: 0.5em 1em;
-  border-left: 3px solid #ff1700;
-  background-color: #f9f9f9;
-  list-style: none;
 }
 .rtl.post-body p,
 .rtl.post-body a,
@@ -1835,6 +1828,7 @@ img:hover {
 }
 .site-description {
   margin-top: 0;
+  margin-bottom: -10px;
   text-align: center;
   font-size: 13px;
   color: #000;
@@ -1953,7 +1947,7 @@ img:hover {
   color: #fff;
 }
 .links-of-author {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -1974,7 +1968,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fa9c82;
+  background: #ffff7c;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2060,6 +2054,7 @@ img:hover {
 .post-toc .nav-item {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 1.8;
 }
 .post-toc .nav .nav-child {
@@ -2085,7 +2080,7 @@ img:hover {
   color: #fc6423;
 }
 .footer {
-  font-size: 14px;
+  font-size: 12px;
   color: #000;
 }
 .footer img {
@@ -2104,7 +2099,7 @@ img:hover {
 }
 .powered-by {
   margin-right: 0px;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 .powered-by::after {
   content: "";
@@ -2123,6 +2118,11 @@ img:hover {
 }
 .cc-license img {
   display: inline-block;
+}
+.sth-footer {
+  margin-right: 0px;
+  margin-top: -15px;
+  margin-bottom: -4px;
 }
 .theme-next #ds-thread #ds-reset {
   color: #555;
