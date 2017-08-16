@@ -116,7 +116,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-16T05:24:31.000Z">
+<meta property="og:updated_time" content="2017-08-16T06:10:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过MRC理解iOS项目内存管理本质">
 <meta name="twitter:description" content="在Xcode4.2之前还没引入ARC（Automatic Reference Counting）的时候，使用的是MRC（MannulReference Counting）来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。">
@@ -393,17 +393,24 @@
 
       
         <p>在Xcode4.2之前还没引入ARC（Automatic Reference Counting）的时候，使用的是MRC（MannulReference Counting）来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器中将ARC设置为无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
-<h3 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a><em>相关方法</em></h3><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="500/"><br><br><br><br><br><br><br><br></p>
-<blockquote>
+<h2 id="内存管理的四个原则"><a href="#内存管理的四个原则" class="headerlink" title="内存管理的四个原则"></a>内存管理的四个原则</h2><ul>
+<li>自己生成的对象，自己所持有。</li>
+<li>非自己生成的对象，自己也能持有。</li>
+<li>不再需要持有对象时释放。</li>
+<li><p>非自己持有的对象无法释放。</p>
+<p><strong><em>相关方法</em></strong><br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="500/"><br><br><br><br><br><br><br><br></p>
+</li>
+</ul>
+<h3 id="自己生成的对象，自己所持有。"><a href="#自己生成的对象，自己所持有。" class="headerlink" title="自己生成的对象，自己所持有。"></a>自己生成的对象，自己所持有。</h3><blockquote>
 <p>当一个对象由<code>alloc/new/copy/mutableCopy</code>其中一种方法生成，表示自己生成并持有对象，系统会给这个对象分配一块内存，此时这块内存的引用计数由<code>0</code>变为<code>1</code>，表示有一个对象或指针持有这块内存。</p>
 </blockquote>
 <p>上代码：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="keyword">id</span> obj0 = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[obj0 retainCount]);</div></pre></td></tr></table></figure></p>
 <p>对象的引用计数可以用<code>retainCount</code>实例方法取得，可以看到此时打印的<code>obj0</code>的retainCount=<code>1</code>。</p>
-<blockquote>
-<p>当有另一个对象或指针指向这块内存、持有这块内存，引用计数+<code>1</code>，变成<code>2</code>。</p>
+<h3 id="非自己生成的对象，自己也能持有。"><a href="#非自己生成的对象，自己也能持有。" class="headerlink" title="非自己生成的对象，自己也能持有。"></a>非自己生成的对象，自己也能持有。</h3><blockquote>
+<p>当有另一个对象或指针指向、持有这块内存，引用计数+<code>1</code>，变成<code>2</code>，以此类推。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="keyword">id</span> obj0 = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line"><span class="keyword">id</span> obj1 = obj0;</div><div class="line">[obj1 <span class="keyword">retain</span>];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[obj0 retainCount]);</div></pre></td></tr></table></figure>
-<p>此时打印的<code>obj0</code>的retainCount=<code>2</code>。<br>注意：retain方法用来持有非自己生成并持有的对象，如果如果不写<code>[obj1 retain]</code>,<code>obj1</code>并未持有<code>obj0</code>，此时打印的<code>obj0</code>的retainCount仍然=<code>1</code>。</p>
+<p>打印的<code>obj0</code>的retainCount=<code>2</code>。<br>注意：retain方法用来持有非自己生成并持有的对象，如果如果没有<code>[obj1 retain]</code>,则<code>obj1</code>并未持有<code>obj0</code>，此时打印的<code>obj0</code>的retainCount仍然=<code>1</code>。</p>
 <h1 id="还没写完"><a href="#还没写完" class="headerlink" title="还没写完"></a>还没写完</h1>
       
     </div>
