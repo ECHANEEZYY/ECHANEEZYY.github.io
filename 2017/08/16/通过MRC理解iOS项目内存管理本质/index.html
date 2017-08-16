@@ -115,7 +115,8 @@
 <meta property="og:description" content="在Xcode4.2之前还没引入ARC（Automatic Reference Counting）的时候，使用的是MRC（MannulReference Counting）来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-15T21:25:02.000Z">
+<meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
+<meta property="og:updated_time" content="2017-08-16T05:24:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过MRC理解iOS项目内存管理本质">
 <meta name="twitter:description" content="在Xcode4.2之前还没引入ARC（Automatic Reference Counting）的时候，使用的是MRC（MannulReference Counting）来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。">
@@ -391,18 +392,18 @@
       
 
       
-        <p>在Xcode4.2之前还没引入ARC（Automatic Reference Counting）的时候，使用的是MRC（MannulReference Counting）来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器中将ARC设置为无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="600/"><br><br><br></p>
-<h4 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h4><p><table style="margin-top:-810px; width:450px"><br>    <thead><br>        <tr style="background: #000000;"><br>            <td><font color="ffffff">对象操作</font></td><br>            <td><font color="ffffff">Objective-C方法</font></td><br>        </tr><br>    </thead><br>    <tbody style="font-size:12px;"><br>       <tr><br>            <td>生成并持有对象</td><br>            <td>alloc/new/copy/mutableCopy等方法</td><br>        </tr><br>        <tr><br>            <td>持有对象</td><br>            <td>retain方法</td><br>        </tr><br>        <tr><br>            <td>释放对象</td><br>            <td>release方法</td><br>        </tr><br>        <tr><br>            <td>废弃对象</td><br>            <td>dealloc方法</td><br>        </tr><br>    </tbody><br></table></p>
+        <p>在Xcode4.2之前还没引入ARC（Automatic Reference Counting）的时候，使用的是MRC（MannulReference Counting）来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器中将ARC设置为无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
+<h3 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a><em>相关方法</em></h3><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="500/"><br><br><br><br><br><br><br><br></p>
 <blockquote>
 <p>当一个对象由<code>alloc/new/copy/mutableCopy</code>其中一种方法生成，表示自己生成并持有对象，系统会给这个对象分配一块内存，此时这块内存的引用计数由<code>0</code>变为<code>1</code>，表示有一个对象或指针持有这块内存。</p>
 </blockquote>
 <p>上代码：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="keyword">id</span> obj0 = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[obj0 retainCount]);</div></pre></td></tr></table></figure></p>
 <p>对象的引用计数可以用<code>retainCount</code>实例方法取得，可以看到此时打印的<code>obj0</code>的retainCount=<code>1</code>。</p>
 <blockquote>
-<p>当有另一个对象或指针指向这块内存，此时另一个对象也持有这块内存，引用计数+<code>1</code>，变成<code>2</code>。</p>
+<p>当有另一个对象或指针指向这块内存、持有这块内存，引用计数+<code>1</code>，变成<code>2</code>。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="keyword">id</span> obj0 = [[<span class="built_in">NSObject</span> alloc] init];</div><div class="line"><span class="keyword">id</span> obj1 = obj0;</div><div class="line">[obj1 <span class="keyword">retain</span>];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,(<span class="keyword">unsigned</span> <span class="keyword">long</span>)[obj0 retainCount]);</div></pre></td></tr></table></figure>
-<p>此时打印的<code>obj0</code>的retainCount=<code>2</code>。<br>注意：retain方法用来持有非自己生成并持有的对象，如果如果不写<code>[obj1 retain]</code>,<code>obj1</code>并未持有<code>obj0</code>，此时打印的obj0的retainCount仍然=<code>1</code>。</p>
+<p>此时打印的<code>obj0</code>的retainCount=<code>2</code>。<br>注意：retain方法用来持有非自己生成并持有的对象，如果如果不写<code>[obj1 retain]</code>,<code>obj1</code>并未持有<code>obj0</code>，此时打印的<code>obj0</code>的retainCount仍然=<code>1</code>。</p>
 <h1 id="还没写完"><a href="#还没写完" class="headerlink" title="还没写完"></a>还没写完</h1>
       
     </div>
