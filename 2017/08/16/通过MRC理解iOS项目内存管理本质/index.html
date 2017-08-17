@@ -116,7 +116,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-16T19:50:05.000Z">
+<meta property="og:updated_time" content="2017-08-17T04:22:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过MRC理解iOS项目内存管理本质">
 <meta name="twitter:description" content="在Xcode4.2之前还没引入ARC(Automatic Reference Counting)的时候，使用的是MRC(MannulReference Counting)来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC的同时，MRC也要了解。">
@@ -425,8 +425,8 @@
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[view1 release];<span class="comment">//你已经失去我了ㄟ( ▔, ▔ )ㄏ</span></div><div class="line">[view1 release];<span class="comment">//再次释放已经废弃的对象或者说非自己持有的对象，程序就会崩溃。</span></div></pre></td></tr></table></figure>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *str = [<span class="built_in">NSMutableString</span> stringWithFormat:<span class="string">@"Hello World!"</span>];</div><div class="line">[str release];<span class="comment">//释放了非自己持有的对象，程序崩溃。</span></div></pre></td></tr></table></figure>
 <p>一般用<code>alloc/new/copy/mutableCopy</code>方法以外的方法生成的对象都被声明了autorelease，autorelease会自动延迟释放内存，不用手动释放，系统会在合适的时候去释放掉它。<br>使用<code>alloc/new/copy/mutableCopy</code>方法创建的及<code>retain</code>方法持有的对象才需要去考虑引用计数。</p>
-<h2 id="最后："><a href="#最后：" class="headerlink" title="最后："></a>最后：</h2><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
-<h1 id="可能还没写完"><a href="#可能还没写完" class="headerlink" title="可能还没写完"></a>可能还没写完</h1>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>/<code>autorelease</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
+
       
     </div>
     
