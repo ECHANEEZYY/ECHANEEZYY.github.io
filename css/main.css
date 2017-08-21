@@ -189,7 +189,7 @@ body {
   font-size: 16px;
   line-height: 2;
   color: #000;
-  background: #fff;
+  background: #eee;
 }
 @media (max-width: 767px) {
   body {
@@ -1968,7 +1968,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #5241ff;
+  background: #f6b;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2843,7 +2843,7 @@ img:hover {
   float: left;
   margin-top: 300px;
   width: 240;
-  background: #fff;
+  background: #eee;
   box-shadow: none;
 }
 @media (min-width: 768px) and (max-width: 991px) {
