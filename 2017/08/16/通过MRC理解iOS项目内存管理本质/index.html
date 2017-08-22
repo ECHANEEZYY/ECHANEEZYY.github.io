@@ -112,7 +112,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-22T02:04:05.000Z">
+<meta property="og:updated_time" content="2017-08-22T03:22:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS内存管理之MRC">
 <meta name="twitter:description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
@@ -396,10 +396,9 @@
 <li>自己生成的对象，自己所持有。(You own any object you create.)</li>
 <li>非自己生成的对象，自己也能持有。(You can take ownership of an object using retain.)</li>
 <li>不再需要持有对象时释放。(When you no longer need it, you must relinquish ownership of an object you own.)</li>
-<li><p>非自己持有的对象无法释放。(You must not relinquish ownership of an object you do not own.)</p>
-<p><strong><em>相关方法</em></strong><br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="500/"><br><br><br><br><br><br><br><br></p>
-</li>
+<li>非自己持有的对象无法释放。(You must not relinquish ownership of an object you do not own.)</li>
 </ul>
+<h2 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h2><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="500/"><br><br><br><br><br><br><br><br></p>
 <h3 id="📎-自己生成的对象，自己所持有。"><a href="#📎-自己生成的对象，自己所持有。" class="headerlink" title="📎 自己生成的对象，自己所持有。"></a>📎 自己生成的对象，自己所持有。</h3><blockquote>
 <p>当一个对象由<code>alloc/new/copy/mutableCopy</code>其中一种方法生成，表示自己生成并持有对象，系统会给这个对象分配一块内存，此时这个对象的引用计数由<code>0</code>变为<code>1</code>，表示有一个对象或指针持有这块内存。</p>
 </blockquote>
@@ -645,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-自己生成的对象，自己所持有。"><span class="nav-text">📎 自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-非自己生成的对象，自己也能持有。"><span class="nav-text">📎 非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-不再需要持有对象时释放。"><span class="nav-text">📎 不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-非自己持有的对象无法释放。"><span class="nav-text">📎 非自己持有的对象无法释放。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关方法"><span class="nav-text">相关方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-自己生成的对象，自己所持有。"><span class="nav-text">📎 自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-非自己生成的对象，自己也能持有。"><span class="nav-text">📎 非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-不再需要持有对象时释放。"><span class="nav-text">📎 不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-非自己持有的对象无法释放。"><span class="nav-text">📎 非自己持有的对象无法释放。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
