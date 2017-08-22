@@ -112,7 +112,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-22T06:14:55.000Z">
+<meta property="og:updated_time" content="2017-08-22T06:25:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS内存管理之MRC">
 <meta name="twitter:description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
@@ -418,7 +418,7 @@
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[view1 release];<span class="comment">//你已经失去我了ㄟ( ▔, ▔ )ㄏ</span></div><div class="line">[view1 release];<span class="comment">//再次释放已经废弃的对象或者说非自己持有的对象，程序就会崩溃。</span></div></pre></td></tr></table></figure>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *str = [<span class="built_in">NSMutableString</span> stringWithFormat:<span class="string">@"Hello World!"</span>];</div><div class="line">[str release];<span class="comment">//释放了非自己持有的对象，程序崩溃。</span></div></pre></td></tr></table></figure>
 <p>一般用<code>alloc/new/copy/mutableCopy</code>方法以外的方法生成的对象都被声明了autorelease，autorelease会自动延迟释放内存，不用手动释放，系统会在合适的时候去释放掉它。<br>使用<code>alloc/new/copy/mutableCopy</code>方法创建的及<code>retain</code>方法持有的对象才需要去考虑引用计数。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>/<code>autorelease</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>/<code>autorelease</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
 
       
     </div>
@@ -639,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关方法"><span class="nav-text">相关方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><span class="nav-text">📎      自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><span class="nav-text">📎      非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><span class="nav-text">📎      不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><span class="nav-text">📎      非自己持有的对象无法释放。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关方法"><span class="nav-text">相关方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><span class="nav-text">📎      自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><span class="nav-text">📎      非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><span class="nav-text">📎      不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><span class="nav-text">📎      非自己持有的对象无法释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></li></ol></div>
             
 
           </div>
