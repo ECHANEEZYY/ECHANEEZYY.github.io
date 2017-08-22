@@ -106,13 +106,13 @@
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS内存管理之MRC">
-<meta property="og:url" content="http://ECHANEEZYY.github.io/2017/08/16/通过MRC理解iOS项目内存管理本质/index.html">
+<meta property="og:url" content="http://ECHANEEZYY.github.io/2017/08/16/iOS内存管理之MRC/index.html">
 <meta property="og:site_name" content="ECHANLSAKFJOISYYZZZ">
 <meta property="og:description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-22T05:06:22.000Z">
+<meta property="og:updated_time" content="2017-08-22T06:14:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS内存管理之MRC">
 <meta name="twitter:description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
@@ -145,7 +145,7 @@
 
 
 
-  <link rel="canonical" href="http://ECHANEEZYY.github.io/2017/08/16/通过MRC理解iOS项目内存管理本质/"/>
+  <link rel="canonical" href="http://ECHANEEZYY.github.io/2017/08/16/iOS内存管理之MRC/"/>
 
 
 
@@ -274,7 +274,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ECHANEEZYY.github.io/2017/08/16/通过MRC理解iOS项目内存管理本质/">
+    <link itemprop="mainEntityOfPage" href="http://ECHANEEZYY.github.io/2017/08/16/iOS内存管理之MRC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ECHANEEZYY">
@@ -341,9 +341,9 @@
                 <span class="post-meta-divider">|</span>
                 <span class="post-meta-item-icon">
                 </span>
-                <a href="/2017/08/16/通过MRC理解iOS项目内存管理本质/#comments" itemprop="discussionUrl">
+                <a href="/2017/08/16/iOS内存管理之MRC/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/16/通过MRC理解iOS项目内存管理本质/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/08/16/iOS内存管理之MRC/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -391,20 +391,20 @@
         <blockquote>
 <p>MRC(MannulReference Counting)<br>ARC(Automatic Reference Counting)</p>
 </blockquote>
-<p>在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置为ARC无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
+<p>在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置ARC为无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
 <h2 id="内存管理基本规则"><a href="#内存管理基本规则" class="headerlink" title="内存管理基本规则"></a>内存管理基本规则</h2><p>💡 自己生成的对象，自己所持有。<br>   (You own any object you create.)<br>💡 非自己生成的对象，自己也能持有。<br>   (You can take ownership of an object using retain.)<br>💡 不再需要持有对象时释放。<br>   (When you no longer need it, you must relinquish ownership of an object you own.)<br>💡 非自己持有的对象无法释放。<br>   (You must not relinquish ownership of an object you do not own.)</p>
-<h4 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h4><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="500/"><br><br><br><br><br><br><br></p>
-<h3 id="📎-自己生成的对象，自己所持有。"><a href="#📎-自己生成的对象，自己所持有。" class="headerlink" title="📎 自己生成的对象，自己所持有。"></a>📎 自己生成的对象，自己所持有。</h3><blockquote>
+<h4 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h4><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="380/"><br><br><br><br><br><br></p>
+<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。</h3><blockquote>
 <p>当一个对象由<code>alloc/new/copy/mutableCopy</code>其中一种方法生成，表示自己生成并持有对象，系统会给这个对象分配一块内存，此时这个对象的引用计数由<code>0</code>变为<code>1</code>，表示有一个对象或指针持有这块内存。</p>
 </blockquote>
 <p>上代码：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,[view1 retainCount]);</div></pre></td></tr></table></figure></p>
 <p>对象的引用计数可以用<code>retainCount</code>实例方法取得(此处用<code>retainCount</code>方法举例，方便理解，实际上这个方法不被推荐使用)，可以看到此时打印的<code>view1</code>的retainCount=<code>1</code>。</p>
-<h3 id="📎-非自己生成的对象，自己也能持有。"><a href="#📎-非自己生成的对象，自己也能持有。" class="headerlink" title="📎 非自己生成的对象，自己也能持有。"></a>📎 非自己生成的对象，自己也能持有。</h3><blockquote>
+<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。</h3><blockquote>
 <p>当有另一个对象或指针指向、持有这块内存，原对象的引用计数在原来的基础上+<code>1</code>。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">UIView</span> *view2 = view1;</div><div class="line">[view2 <span class="keyword">retain</span>];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,[view1 retainCount]);</div></pre></td></tr></table></figure>
 <p>打印的<code>view1</code>的retainCount=<code>2</code>。<br>retain方法用来持有非自己生成并持有的对象，如果没有<code>[view2 retain]</code>,则<code>view2</code>并未拥有<code>view1</code>的所有权，此时打印的<code>view1</code>的retainCount仍然为<code>1</code>。</p>
-<h3 id="📎-不再需要持有对象时释放。"><a href="#📎-不再需要持有对象时释放。" class="headerlink" title="📎 不再需要持有对象时释放。"></a>📎 不再需要持有对象时释放。</h3><blockquote>
+<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。</h3><blockquote>
 <p>当一个对象不再需要使用时，必须将该对象释放,释放完成后与该对象相关的引用计数-<code>1</code>。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[view1 release];</div></pre></td></tr></table></figure>
@@ -412,7 +412,7 @@
 <p>上述情况程序会崩溃，原因是view1被release，经过dealloc后内存被系统回收，view1不再持有内存。而view2仍然指向这块内存的地址，其所指的位置已经被销毁，所以此时的view2是野指针，它可以指向一块地方，但是对它进行任何操作，程序就会崩溃。<br>此时如果view2还需要,可以给它赋一个持有内存的新值以对view2进行操作，或者暂时先给它一个nil。<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view3 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">view2 = view3;</div><div class="line">[view2 setFrame:<span class="built_in">CGRectMake</span>(<span class="number">50</span>, <span class="number">50</span>, <span class="number">100</span>, <span class="number">100</span>)];</div><div class="line"></div><div class="line"><span class="comment">//或先给它一个nil，之后再进行以上类似操作。</span></div><div class="line">view2 = <span class="literal">nil</span>;</div></pre></td></tr></table></figure></p>
 <p>或者一开始就retain：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">UIView</span> *view2 = view1;</div><div class="line">[view2 <span class="keyword">retain</span>];</div><div class="line">[view1 release];</div><div class="line">[view2 setBackgroundColor:[<span class="built_in">UIColor</span> blackColor]];</div></pre></td></tr></table></figure></p>
 <p>如此就算view1释放，view2还是持有这块内存，这样就可以继续对view2进行操作啦！操作一波之后不再需要view2了记得release掉它。</p>
-<h3 id="📎-非自己持有的对象无法释放。"><a href="#📎-非自己持有的对象无法释放。" class="headerlink" title="📎 非自己持有的对象无法释放。"></a>📎 非自己持有的对象无法释放。</h3><blockquote>
+<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。</h3><blockquote>
 <p>非<code>alloc/new/copy/mutableCopy</code>方法生成并持有的，或使用<code>retain</code>方法持有的对象，不能进行释放。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[view1 release];<span class="comment">//你已经失去我了ㄟ( ▔, ▔ )ㄏ</span></div><div class="line">[view1 release];<span class="comment">//再次释放已经废弃的对象或者说非自己持有的对象，程序就会崩溃。</span></div></pre></td></tr></table></figure>
@@ -639,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关方法"><span class="nav-text">相关方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-自己生成的对象，自己所持有。"><span class="nav-text">📎 自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-非自己生成的对象，自己也能持有。"><span class="nav-text">📎 非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-不再需要持有对象时释放。"><span class="nav-text">📎 不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-非自己持有的对象无法释放。"><span class="nav-text">📎 非自己持有的对象无法释放。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关方法"><span class="nav-text">相关方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><span class="nav-text">📎      自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><span class="nav-text">📎      非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><span class="nav-text">📎      不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><span class="nav-text">📎      非自己持有的对象无法释放。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
@@ -797,8 +797,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://ECHANEEZYY.github.io/2017/08/16/通过MRC理解iOS项目内存管理本质/';
-          this.page.identifier = '2017/08/16/通过MRC理解iOS项目内存管理本质/';
+          this.page.url = 'http://ECHANEEZYY.github.io/2017/08/16/iOS内存管理之MRC/';
+          this.page.identifier = '2017/08/16/iOS内存管理之MRC/';
           this.page.title = 'iOS内存管理之MRC';
         };
         var d = document, s = d.createElement('script');
