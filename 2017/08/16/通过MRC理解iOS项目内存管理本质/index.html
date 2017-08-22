@@ -102,20 +102,20 @@
 
 
 
-<meta name="description" content="在 Xcode 4.2 之前还没引入 ARC(Automatic Reference Counting) 的时候，使用的是 MRC(MannulReference Counting) 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内">
+<meta name="description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过MRC理解iOS项目内存管理本质">
+<meta property="og:title" content="iOS内存管理之MRC">
 <meta property="og:url" content="http://ECHANEEZYY.github.io/2017/08/16/通过MRC理解iOS项目内存管理本质/index.html">
 <meta property="og:site_name" content="ECHANLSAKFJOISYYZZZ">
-<meta property="og:description" content="在 Xcode 4.2 之前还没引入 ARC(Automatic Reference Counting) 的时候，使用的是 MRC(MannulReference Counting) 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内">
+<meta property="og:description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-21T17:22:48.000Z">
+<meta property="og:updated_time" content="2017-08-22T02:04:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过MRC理解iOS项目内存管理本质">
-<meta name="twitter:description" content="在 Xcode 4.2 之前还没引入 ARC(Automatic Reference Counting) 的时候，使用的是 MRC(MannulReference Counting) 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内">
+<meta name="twitter:title" content="iOS内存管理之MRC">
+<meta name="twitter:description" content="MRC(MannulReference Counting)ARC(Automatic Reference Counting)  在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望">
 <meta name="twitter:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 
 
@@ -151,7 +151,7 @@
 
 
 
-  <title>通过MRC理解iOS项目内存管理本质 | ECHANLSAKFJOISYYZZZ</title>
+  <title>iOS内存管理之MRC | ECHANLSAKFJOISYYZZZ</title>
   
 
 
@@ -291,7 +291,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">通过MRC理解iOS项目内存管理本质</h1>
+          <h1 class="post-title" itemprop="name headline">iOS内存管理之MRC</h1>
         
 
         <div class="post-meta">
@@ -388,7 +388,10 @@
       
 
       
-        <p>在 Xcode 4.2 之前还没引入 ARC(Automatic Reference Counting) 的时候，使用的是 MRC(MannulReference Counting) 来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置为ARC无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
+        <blockquote>
+<p>MRC(MannulReference Counting)<br>ARC(Automatic Reference Counting)</p>
+</blockquote>
+<p>在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。<br>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置为ARC无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
 <h2 id="内存管理基本规则"><a href="#内存管理基本规则" class="headerlink" title="内存管理基本规则"></a>内存管理基本规则</h2><ul>
 <li>自己生成的对象，自己所持有。(You own any object you create.)</li>
 <li>非自己生成的对象，自己也能持有。(You can take ownership of an object using retain.)</li>
@@ -802,7 +805,7 @@
         var disqus_config = function () {
           this.page.url = 'http://ECHANEEZYY.github.io/2017/08/16/通过MRC理解iOS项目内存管理本质/';
           this.page.identifier = '2017/08/16/通过MRC理解iOS项目内存管理本质/';
-          this.page.title = '通过MRC理解iOS项目内存管理本质';
+          this.page.title = 'iOS内存管理之MRC';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://echanlsakfjoisyyzzz.disqus.com/embed.js';
