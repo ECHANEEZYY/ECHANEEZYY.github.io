@@ -1968,7 +1968,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffdf5c;
+  background: #a8ff1b;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2778,7 +2778,7 @@ img:hover {
 @media (max-width: 767px) {
   .header-inner {
     position: relative;
-    width: 108%;
+    width: auto;
     border-radius: initial;
   }
 }
@@ -2810,13 +2810,13 @@ img:hover {
 }
 @media (max-width: 767px) {
   .container .main-inner {
-    width: 105%;
+    width: auto;
   }
 }
 .content-wrap {
   float: right;
   box-sizing: border-box;
-  padding: 40px;
+  padding: 20px;
   width: calc(100% - 252px);
   background: #fff;
   min-height: 700px;
@@ -2832,7 +2832,7 @@ img:hover {
 }
 @media (max-width: 767px) {
   .content-wrap {
-    width: 105%;
+    width: 100%;
     padding: 20px;
     min-height: auto;
     border-radius: initial;
@@ -3132,7 +3132,7 @@ img:hover {
 .post-block {
   margin-bottom: 12px;
   background: #fff;
-  padding: 40px;
+  padding: 20px;
   box-shadow: initial;
   border-radius: initial;
 }
