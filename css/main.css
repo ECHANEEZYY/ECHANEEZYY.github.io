@@ -1153,7 +1153,7 @@ pre .javascript .function {
 @media (max-width: 767px) {
   .site-meta {
     text-align: center;
-    text-indent: 6px;
+    text-indent: 30px;
   }
 }
 .brand {
@@ -1969,7 +1969,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #cd37cf;
+  background: #a420ac;
 }
 .links-of-blogroll {
   font-size: 13px;
