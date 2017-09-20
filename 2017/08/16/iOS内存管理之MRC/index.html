@@ -1,108 +1,11 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="google-site-verification" content="true" />
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <meta charset="utf-8">
   
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="iOS," />
-
-
-
-
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
-
-
-
-
-
-
-<meta name="description" content="在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。  MRC(MannulReference Counting)ARC(Automatic Reference Counting)  ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期">
+  <title>iOS内存管理之MRC | ECHANLSAKFJOISYYZZZ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。  MRC(MannulReference Counting)ARC(Automatic Reference Counting)  ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS内存管理之MRC">
@@ -112,755 +15,204 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
 <meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
-<meta property="og:updated_time" content="2017-08-23T02:39:15.000Z">
+<meta property="og:updated_time" content="2017-09-19T06:46:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS内存管理之MRC">
 <meta name="twitter:description" content="在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。  MRC(MannulReference Counting)ARC(Automatic Reference Counting)  ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期">
 <meta name="twitter:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Gemini',
-    sidebar: {"position":"left","display":"always","offset":10,"offset_float":10,"b2t":false,"scrollpercent":true,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: true,
-    duoshuo: {
-      userId: '0',
-      author: 'ECHANEEZYY'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://www.echan.me/2017/08/16/iOS内存管理之MRC/"/>
-
-
-
-
-
-  <title>iOS内存管理之MRC | ECHANLSAKFJOISYYZZZ</title>
   
+    <link rel="alternate" href="/atom.xml" title="ECHANLSAKFJOISYYZZZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/tocas.css">
+  <link rel="stylesheet" href="/css/animate.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
 
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
 
+    #menu-color-id{
+        background : #f7f7f7;
+    }
 
-
-
-
-
-
-
-
-
-
-
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  <script src="/js/tocas.js"></script>
+  
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body>
+<!-- navigation -->
 
-  
-  
-    
-  
+<div class="ts fluid basic link big menu" id="menu-color-id">
 
-  <div class="container sidebar-position-left page-post-detail ">
-    <div class="headband"></div>
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ECHANLSAKFJOISYYZZZ</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/about">About</a>
+        
     </div>
-      
-        <h1 class="site-subtitle" itemprop="description">A SUPER COOL BOY FROM NANAO ISLAND.</h1>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
 </div>
+<!-- the end of navigation -->
 
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页 &nbsp;&nbsp;&nbsp;· &nbsp;&nbsp;&nbsp;HOME
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-coffee"></i> <br />
-            
-            归档 &nbsp;&nbsp;&nbsp;· &nbsp;&nbsp;&nbsp;ARCHIVES
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user-circle-o"></i> <br />
-            
-            关于 &nbsp;&nbsp;&nbsp;· &nbsp;&nbsp;&nbsp;ABOUT
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #000000;">
+    <!-- ejs : align to post page or index page -->
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.echan.me/2017/08/16/iOS内存管理之MRC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ECHANEEZYY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://ws3.sinaimg.cn/large/006tNc79gy1ficbtk9lh4j30j60j6mx8.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ECHANLSAKFJOISYYZZZ">
-    </span>
-
+        <div class="ts very narrow container">
     
-      <header class="post-header">
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #ffffff;" id="big-title">ECHANLSAKFJOISYYZZZ</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #ffffff;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
 
-        
-        
-          <h2 class="post-title" itemprop="name headline">iOS内存管理之MRC</h2>
-        
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-              </span>
-              
-                <span class="post-meta-item-text"></span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-16T02:24:23+08:00">
-                2017-08-16
-              </time>
-            
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-              </span>
-              
-                <span class="post-meta-item-text"></span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习记录/" itemprop="url" rel="index">
-                    <span itemprop="name">学习记录</span>
-                  </a>
-                </span>
-
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
                 
-                
-              
-            </span>
-          
+                <h3 class="ts header">
+                    <span style="color: #333;">iOS内存管理之MRC</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2017/7/16 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/iOS/">iOS</a></li></ul>
+                    
+                    </div>
+                </h3>
 
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                </span>
-                <a href="/2017/08/16/iOS内存管理之MRC/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/16/iOS内存管理之MRC/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-
-              
-
-              
-                <span class="post-meta-item-icon">
-                </span>
-                
-                  <span class="post-meta-item-text"></span>
-                
-                <span title="阅读时长">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。</p>
+                <p>在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。</p>
 <blockquote>
 <p>MRC(MannulReference Counting)<br>ARC(Automatic Reference Counting)</p>
 </blockquote>
-<p>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置ARC为无效就可以使用MRC管理内存了。<br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br></p>
-<h2 id="内存管理基本规则"><a href="#内存管理基本规则" class="headerlink" title="内存管理基本规则"></a>内存管理基本规则</h2><p>💡 自己生成的对象，自己所持有。<br>   (You own any object you create.)<br>💡 非自己生成的对象，自己也能持有。<br>   (You can take ownership of an object using retain.)<br>💡 不再需要持有对象时释放。<br>   (When you no longer need it, you must relinquish ownership of an object you own.)<br>💡 非自己持有的对象无法释放。<br>   (You must not relinquish ownership of an object you do not own.)</p>
-<h4 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h4><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="380/"><br><br><br><br><br><br></p>
-<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。</h3><blockquote>
+<p>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置ARC为无效就可以使用MRC管理内存了。<br><br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br><br><br></p>
+<h5 id="内存管理基本规则"><a href="#内存管理基本规则" class="headerlink" title="内存管理基本规则"></a>内存管理基本规则</h5><p>💡 自己生成的对象，自己所持有。<br>   (You own any object you create.)<br>💡 非自己生成的对象，自己也能持有。<br>   (You can take ownership of an object using retain.)<br>💡 不再需要持有对象时释放。<br>   (When you no longer need it, you must relinquish ownership of an object you own.)<br>💡 非自己持有的对象无法释放。<br>   (You must not relinquish ownership of an object you do not own.)</p>
+<h6 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h6><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="80/"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。</h5><blockquote>
 <p>当一个对象由<code>alloc/new/copy/mutableCopy</code>其中一种方法生成，表示自己生成并持有对象，系统会给这个对象分配一块内存，此时这个对象的引用计数由<code>0</code>变为<code>1</code>，表示有一个对象或指针持有这块内存。</p>
 </blockquote>
 <p>上代码：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,[view1 retainCount]);</div></pre></td></tr></table></figure></p>
 <p>对象的引用计数可以用<code>retainCount</code>实例方法取得(此处用<code>retainCount</code>方法举例，方便理解，实际上这个方法不被推荐使用)，可以看到此时打印的<code>view1</code>的retainCount=<code>1</code>。</p>
-<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。</h3><blockquote>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。</h5><blockquote>
 <p>当有另一个对象或指针指向、持有这块内存，原对象的引用计数在原来的基础上+<code>1</code>。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">UIView</span> *view2 = view1;</div><div class="line">[view2 <span class="keyword">retain</span>];</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"%lu"</span>,[view1 retainCount]);</div></pre></td></tr></table></figure>
 <p>打印的<code>view1</code>的retainCount=<code>2</code>。<br>retain方法用来持有非自己生成并持有的对象，如果没有<code>[view2 retain]</code>,则<code>view2</code>并未拥有<code>view1</code>的所有权，此时打印的<code>view1</code>的retainCount仍然为<code>1</code>。</p>
-<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。</h3><blockquote>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。</h5><blockquote>
 <p>当一个对象不再需要使用时，必须将该对象释放,释放完成后与该对象相关的引用计数-<code>1</code>。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[view1 release];</div></pre></td></tr></table></figure>
-<p>对象一经释放不可再访问，当一个对象的引用计数减到<code>0</code>时，系统会调用<code>dealloc</code>方法废弃该对象，其占用的内存会被系统回收。<br><strong>需要注意的是</strong>：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">UIView</span> *view2 = view1;</div><div class="line">[view1 release];</div><div class="line">[view2 setBackgroundColor:[<span class="built_in">UIColor</span> blackColor]];</div></pre></td></tr></table></figure></p>
+<p>对象一经释放不可再访问，当一个对象的引用计数减到<code>0</code>时，系统会调用<code>dealloc</code>方法废弃该对象，其占用的内存会被系统回收。<br><br><strong>需要注意的是</strong>：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">UIView</span> *view2 = view1;</div><div class="line">[view1 release];</div><div class="line">[view2 setBackgroundColor:[<span class="built_in">UIColor</span> blackColor]];</div></pre></td></tr></table></figure></p>
 <p>上述情况程序会崩溃，原因是view1被release，经过dealloc后内存被系统回收，view1不再持有内存。而view2仍然指向这块内存的地址，其所指的位置已经被销毁，所以此时的view2是野指针，它可以指向一块地方，但是对它进行任何操作，程序就会崩溃。<br>此时如果view2还需要,可以给它赋一个持有内存的新值以对view2进行操作，或者暂时先给它一个nil。<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view3 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">view2 = view3;</div><div class="line">[view2 setFrame:<span class="built_in">CGRectMake</span>(<span class="number">50</span>, <span class="number">50</span>, <span class="number">100</span>, <span class="number">100</span>)];</div><div class="line"></div><div class="line"><span class="comment">//或先给它一个nil，之后再进行以上类似操作。</span></div><div class="line">view2 = <span class="literal">nil</span>;</div></pre></td></tr></table></figure></p>
 <p>或者一开始就retain：<br><figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line"><span class="built_in">UIView</span> *view2 = view1;</div><div class="line">[view2 <span class="keyword">retain</span>];</div><div class="line">[view1 release];</div><div class="line">[view2 setBackgroundColor:[<span class="built_in">UIColor</span> blackColor]];</div></pre></td></tr></table></figure></p>
 <p>如此就算view1释放，view2还是持有这块内存，这样就可以继续对view2进行操作啦！操作一波之后不再需要view2了记得release掉它。</p>
-<h3 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。</h3><blockquote>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。</h5><blockquote>
 <p>非<code>alloc/new/copy/mutableCopy</code>方法生成并持有的，或使用<code>retain</code>方法持有的对象，不能进行释放。</p>
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[view1 release];<span class="comment">//你已经失去我了ㄟ( ▔, ▔ )ㄏ</span></div><div class="line">[view1 release];<span class="comment">//再次释放已经废弃的对象或者说非自己持有的对象，程序就会崩溃。</span></div></pre></td></tr></table></figure>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *str = [<span class="built_in">NSMutableString</span> stringWithFormat:<span class="string">@"Hello World!"</span>];</div><div class="line">[str release];<span class="comment">//释放了非自己持有的对象，程序崩溃。</span></div></pre></td></tr></table></figure>
 <p>一般用<code>alloc/new/copy/mutableCopy</code>方法以外的方法生成的对象都被声明了autorelease，autorelease会自动延迟释放内存，不用手动释放，系统会在合适的时候去释放掉它。<br>使用<code>alloc/new/copy/mutableCopy</code>方法创建的及<code>retain</code>方法持有的对象才需要去考虑引用计数。</p>
-<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>/<code>autorelease</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
+<h5 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h5><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>/<code>autorelease</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
 
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
-          
+            <!-- / the end of articles -->
         </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/08/11/FIRST-COMMIT/" rel="next" title="FIRST COMMIT">
-                <i class="fa fa-chevron-left"></i> FIRST COMMIT
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
-
-
-        </div>
+        <!-- / left section -->
         
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="https://ws3.sinaimg.cn/large/006tNc79gy1ficbtk9lh4j30j60j6mx8.jpg"
-               alt="ECHANEEZYY" />
-          <p class="site-author-name" itemprop="name">ECHANEEZYY</p>
-           
-              <p class="site-description motion-element" itemprop="description"></p>
-           
-        </div>
-        <!-- <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">文章</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              
-                <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">分类</span>
-              
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">标签</span>
-              
-            </div>
-          
-
-        </nav> -->
-
+        
+            <hr/>
+            <div id="disqus_thread" style=" margin-top: 15px; margin-bottom: 25px; "></div>
+            <script>
+                /**
+                *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://morgan-hexo-theme.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         
 
-        <div class="links-of-author motion-element">
-          
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
             
-              <!-- <span class="links-of-author-item">
-                <a href="http://weibo.com/wan497" target="_blank" title="Weibo">
-                  
+                <a href="#"></a>
+            
+            
+                <a href="/2017/08/11/FIRST-COMMIT/" class="styled-border">
                     
+                    FIRST COMMIT
+                    →
                 </a>
-              </span> -->
             
-              <!-- <span class="links-of-author-item">
-                <a href="https://www.instagram.com/echanlsakfjoisyyzzz/" target="_blank" title="Instagram">
-                  
-                    
-                </a>
-              </span> -->
-            
-              <!-- <span class="links-of-author-item">
-                <a href="https://github.com/ECHANEEZYY" target="_blank" title="GitHub">
-                  
-                    
-                </a>
-              </span> -->
-            
-          
         </div>
-
         
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              BLOG ROLLS
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.ahonn.me/" title="Ahonn" target="_blank">Ahonn</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://blog.co1mugx.tk/" title="Co1MugX" target="_blank">Co1MugX</a>
-                </li>
-              
-            </ul>
-          </div>
-        
-
-        
-
-
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理基本规则"><span class="nav-text">内存管理基本规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相关方法"><span class="nav-text">相关方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><span class="nav-text">📎      自己生成的对象，自己所持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><span class="nav-text">📎      非自己生成的对象，自己也能持有。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><span class="nav-text">📎      不再需要持有对象时释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><span class="nav-text">📎      非自己持有的对象无法释放。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        
-
-<div class="powered-by">
-  <a class="theme-link" href="http://weibo.com/wan497" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/weibo.png?raw=true" width="28" height="28"/></a>
 </div>
-
-<div class="powered-by">
-  <a class="theme-link" href="https://www.instagram.com/echanlsakfjoisyyzzz" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/instagram.png?raw=true" width="28" height="28"/></a>
-</div>
-
-<div class="powered-by">
-  <a class="theme-link" href="https://github.com/ECHANEEZYY" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/github.png?raw=true" width="28" height="28"/></a>
-</div>
-
-
-
-<div class="sth-footer">
-  POWERED BY <a href="https://hexo.io/" target="_blank">HEXO</a> THEME - <a href="https://github.com/iissnan/hexo-theme-next" target="_blank">NexT</a>
-</div>
-
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-rocket"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">ECHANEEZYY</span>
-</div>
-        
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
-    
-
-  </div>
-
-  
-
 <script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
-
-
-
-  
-
-
-  
-
-    
-      <script id="dsq-count-scr" src="https://echanlsakfjoisyyzzz.disqus.com/count.js" async></script>
-    
-
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://www.echan.me/2017/08/16/iOS内存管理之MRC/';
-          this.page.identifier = '2017/08/16/iOS内存管理之MRC/';
-          this.page.title = 'iOS内存管理之MRC';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://echanlsakfjoisyyzzz.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
     }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
 </script>
+<!-- / main section -->
 
-
-  
-
-  
-
-  
-
-  
-
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            <a class="theme-link" href="http://weibo.com/wan497" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/weibo.png?raw=true" width="28" height="28"/></a>&nbsp;&nbsp;&nbsp;
+            <a class="theme-link" href="https://www.instagram.com/echanlsakfjoisyyzzz" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/instagram.png?raw=true" width="28" height="28"/></a>&nbsp;&nbsp;&nbsp;
+            <a class="theme-link" href="https://github.com/ECHANEEZYY" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/github.png?raw=true" width="28" height="28"/></a>
+            <br></br>
+            <div class="smaller sub header">
+                2017&nbsp;🚀&nbsp;ECHANEEZYY
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["A SUPER COOL BOY FROM NANAO ISLAND.","CHASE THE SUN"];
+</script>
+<script src="/js/script.js"></script>
 </body>
 </html>
