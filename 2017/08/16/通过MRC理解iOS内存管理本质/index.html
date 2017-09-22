@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>通过MRC理解iOS内存管理本质 | ECHANLSAKFJOISYYZZZ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。  MRC(MannulReference Counting)ARC(Automatic Reference Counting)  ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过MRC理解iOS内存管理本质">
+<meta property="og:url" content="http://www.echan.me/2017/08/16/通过MRC理解iOS内存管理本质/index.html">
+<meta property="og:site_name" content="ECHANLSAKFJOISYYZZZ">
+<meta property="og:description" content="在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。  MRC(MannulReference Counting)ARC(Automatic Reference Counting)  ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
+<meta property="og:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true">
+<meta property="og:updated_time" content="2017-09-21T18:42:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过MRC理解iOS内存管理本质">
+<meta name="twitter:description" content="在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。  MRC(MannulReference Counting)ARC(Automatic Reference Counting)  ARC和MRC原理一样，只是ARC下无需手工retain或者release，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期">
+<meta name="twitter:image" content="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true">
+  
+    <link rel="alternate" href="/atom.xml" title="ECHANLSAKFJOISYYZZZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  <link rel="stylesheet" href="/css/tocas.css">
+  <link rel="stylesheet" href="/css/animate.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style type="text/css">
+    a.title-link:hover{
+        color: #34b2db !important;
+    }
+
+    a.title-link:active{
+        color: #2075c1 !important;
+    }
+
+    #menu-color-id{
+        background : #f7f7f7;
+    }
+
+    #menu-color-id a{
+        color: #5a5a5a;
+    }
+  </style>
+  <script src="/js/tocas.js"></script>
+  
+
+<link rel="stylesheet" href="/css/prism-atom-dark.css" type="text/css"></head>
+
+<body>
+<!-- navigation -->
+
+<div class="ts fluid basic link big menu" id="menu-color-id">
+
+    <!-- ejs : align to post page or index page -->
+        
+            <div class="ts very narrow container">
+        
+
+        
+            <a class="item" href="/">Home</a>
+        
+            <a class="item" href="/about">About</a>
+        
+    </div>
+</div>
+<!-- the end of navigation -->
+
+<!-- big bang title -->
+<div class="ts padded horizontally fitted fluid slate" style="background-color: #000000;">
+    <!-- ejs : align to post page or index page -->
+    
+        <div class="ts very narrow container">
+    
+        <!-- Title -->
+        <h1 class="ts eleven wide column header be-center-h1">
+            <span style="color: #ffffff;" id="big-title">ECHANLSAKFJOISYYZZZ</span>
+            <div class="sub header" id="slogan-bar" style=" margin-top: 15px; color: #ffffff;"></div>
+        </h1>
+        <!-- the end of title -->
+    </div>
+</div>
+<!-- the end of big bang title -->
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+<!-- main section -->
+<div class="ts text container">
+        <!-- left section -->
+        <div class="column" style=" padding: 35px; ">
+            <!-- Articles -->
+                
+                <h3 class="ts header">
+                    <span style="color: #333;">通过MRC理解iOS内存管理本质</span>
+                    <div class="sub header" style="color: #808080;">Publish: 2017/7/16 
+                     &nbsp;&nbsp;
+                        <ul class="unstyled radius-tag -list"><li class="unstyled radius-tag -list-item"><a class="unstyled radius-tag -list-link" href="/tags/iOS/">iOS</a></li></ul>
+                    
+                    </div>
+                </h3>
+
+                <p>在 Xcode 4.2 之前还没引入 ARC 的时候，使用的是 MRC 来管理iOS项目的内存。</p>
+<blockquote>
+<p>MRC(MannulReference Counting)<br>ARC(Automatic Reference Counting)</p>
+</blockquote>
+<p>ARC和MRC原理一样，只是ARC下无需手工<code>retain</code>或者<code>release</code>，系统会自动管理已创建的对象或内存空间。使用ARC可以省去许多繁复的操作，而使用MRC可以按自己期望精确地管理对象及内存的使用，同时通过使用MRC也易于理解iOS项目内存管理的本质。<br><a id="more"></a><br>在<code>TARGETS</code>的<code>Build Settings</code>中将LLVM编辑器设置ARC为无效就可以使用MRC管理内存了。<br><br><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG190.jpeg?raw=true" width="500/"><br><br><br><br><br></p>
+<h5 id="内存管理基本规则"><a href="#内存管理基本规则" class="headerlink" title="内存管理基本规则"></a>内存管理基本规则</h5><p>💡 自己生成的对象，自己所持有。<br>   (You own any object you create.)<br>💡 非自己生成的对象，自己也能持有。<br>   (You can take ownership of an object using retain.)<br>💡 不再需要持有对象时释放。<br>   (When you no longer need it, you must relinquish ownership of an object you own.)<br>💡 非自己持有的对象无法释放。<br>   (You must not relinquish ownership of an object you do not own.)</p>
+<h6 id="相关方法"><a href="#相关方法" class="headerlink" title="相关方法"></a>相关方法</h6><p><img align="left" src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/WechatIMG191.jpeg?raw=true" width="80/"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-自己生成的对象，自己所持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自己生成的对象，自己所持有。</h5><blockquote>
+<p>当一个对象由<code>alloc/new/copy/mutableCopy</code>其中一种方法生成，表示自己生成并持有对象，系统会给这个对象分配一块内存，此时这个对象的引用计数由<code>0</code>变为<code>1</code>，表示有一个对象或指针持有这块内存。</p>
+</blockquote>
+<p>上代码：</p>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"%lu"</span><span class="token punctuation">,</span><span class="token punctuation">[</span>view1 retainCount<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>对象的引用计数可以用<code>retainCount</code>实例方法取得(此处用<code>retainCount</code>方法举例，方便理解，实际上这个方法不被推荐使用)，可以看到此时打印的<code>view1</code>的retainCount=<code>1</code>。</p>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己生成的对象，自己也能持有。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己生成的对象，自己也能持有。</h5><blockquote>
+<p>当有另一个对象或指针指向、持有这块内存，原对象的引用计数在原来的基础上+<code>1</code>。</p>
+</blockquote>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+UIView <span class="token operator">*</span>view2 <span class="token operator">=</span> view1<span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view2 retain<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"%lu"</span><span class="token punctuation">,</span><span class="token punctuation">[</span>view1 retainCount<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>打印的<code>view1</code>的retainCount=<code>2</code>。<br>retain方法用来持有非自己生成并持有的对象，如果没有<code>[view2 retain]</code>,则<code>view2</code>并未拥有<code>view1</code>的所有权，此时打印的<code>view1</code>的retainCount仍然为<code>1</code>。</p>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-不再需要持有对象时释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不再需要持有对象时释放。</h5><blockquote>
+<p>当一个对象不再需要使用时，必须将该对象释放,释放完成后与该对象相关的引用计数-<code>1</code>。</p>
+</blockquote>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view1 release<span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>对象一经释放不可再访问，当一个对象的引用计数减到<code>0</code>时，系统会调用<code>dealloc</code>方法废弃该对象，其占用的内存会被系统回收。<br><br><strong>需要注意的是</strong>：</p>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+UIView <span class="token operator">*</span>view2 <span class="token operator">=</span> view1<span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view1 release<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view2 setBackgroundColor<span class="token punctuation">:</span><span class="token punctuation">[</span>UIColor blackColor<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>上述情况程序会崩溃，原因是view1被release，经过dealloc后内存被系统回收，view1不再持有内存。而view2仍然指向这块内存的地址，其所指的位置已经被销毁，所以此时的view2是野指针，它可以指向一块地方，但是对它进行任何操作，程序就会崩溃。<br>此时如果view2还需要,可以给它赋一个持有内存的新值以对view2进行操作，或者暂时先给它一个nil。</p>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view3 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+view2 <span class="token operator">=</span> view3<span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view2 setFrame<span class="token punctuation">:</span><span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//或先给它一个nil，之后再进行以上类似操作。</span>
+view2 <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+</code></pre>
+<p>或者一开始就retain：</p>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+UIView <span class="token operator">*</span>view2 <span class="token operator">=</span> view1<span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view2 retain<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view1 release<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view2 setBackgroundColor<span class="token punctuation">:</span><span class="token punctuation">[</span>UIColor blackColor<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>如此就算view1释放，view2还是持有这块内存，这样就可以继续对view2进行操作啦！操作一波之后不再需要view2了记得release掉它。</p>
+<h5 id="📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。"><a href="#📎-nbsp-nbsp-nbsp-nbsp-nbsp-nbsp-非自己持有的对象无法释放。" class="headerlink" title="📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。"></a>📎&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;非自己持有的对象无法释放。</h5><blockquote>
+<p>非<code>alloc/new/copy/mutableCopy</code>方法生成并持有的，或使用<code>retain</code>方法持有的对象，不能进行释放。</p>
+</blockquote>
+<pre class=" language-objectivec"><code class="language-objectivec">UIView <span class="token operator">*</span>view1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">[</span>view1 release<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//你已经失去我了ㄟ( ▔, ▔ )ㄏ</span>
+<span class="token punctuation">[</span>view1 release<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//再次释放已经废弃的对象或者说非自己持有的对象，程序就会崩溃。</span>
+</code></pre>
+<pre class=" language-objectivec"><code class="language-objectivec">NSString <span class="token operator">*</span>str <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"Hello World!"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">[</span>str release<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//释放了非自己持有的对象，程序崩溃。</span>
+</code></pre>
+<p>一般用<code>alloc/new/copy/mutableCopy</code>方法以外的方法生成的对象都被声明了autorelease，autorelease会自动延迟释放内存，不用手动释放，系统会在合适的时候去释放掉它。<br>使用<code>alloc/new/copy/mutableCopy</code>方法创建的及<code>retain</code>方法持有的对象才需要去考虑引用计数。</p>
+<h5 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h5><p>谁 <code>alloc/new/copy/mutableCopy</code>，谁 <code>release</code>。<br>谁 <code>retain</code>，谁 <code>release</code>。<br>即：<br>A <code>alloc/new/copy/mutableCopy</code>的次数必须等于 A <code>release</code>/<code>autorelease</code>的次数。<br>B <code>retain</code>的次数必须等于 B <code>release</code>的次数。</p>
+
+            <!-- / the end of articles -->
+        </div>
+        <!-- / left section -->
+        
+        
+
+        <!-- Next Post and Prev Post -->
+        
+        <hr/>
+        <div class="next-prev-post-section">
+            
+                <a href="/2017/09/22/TEST/" class="styled-border">
+                    ←
+                    TEST
+                    
+                </a>
+            
+            
+                <a href="/2017/08/11/FIRST-COMMIT/" class="styled-border">
+                    
+                    FIRST COMMIT
+                    →
+                </a>
+            
+        </div>
+        
+</div>
+<script type="text/javascript">
+    let img = document.getElementsByTagName("img");
+    for(let i = 0; i < img.length; i++){
+        img[i].className += " ts fluid image";
+    }
+</script>
+<!-- / main section -->
+
+<!-- copyright -->
+<div class="ts attached secondary segment">
+    <div class="ts narrow container">
+        <br>
+        <div class="ts large center aligned header">
+            <a class="theme-link" href="http://weibo.com/wan497" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/weibo.png?raw=true" width="28" height="28"/></a>&nbsp;&nbsp;&nbsp;
+            <a class="theme-link" href="https://www.instagram.com/echanlsakfjoisyyzzz" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/instagram.png?raw=true" width="28" height="28"/></a>&nbsp;&nbsp;&nbsp;
+            <a class="theme-link" href="https://github.com/ECHANEEZYY" target="_blank"><img src="https://github.com/ECHANEEZYY/BlogPhotos/blob/master/github.png?raw=true" width="28" height="28"/></a>
+            <br></br>
+            <div class="smaller sub header">
+                2017&nbsp;🚀&nbsp;ECHANEEZYY
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+<!-- / copyright -->
+<script type="text/javascript">
+    
+    const slogans = ["CHASE THE SUN","🌞🌞🌞🌞🌞🌞🌞🌞🌞"];
+</script>
+<script src="/js/script.js"></script>
+</body>
+</html>
